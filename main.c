@@ -39,15 +39,16 @@ int Init() {
   if ( win == NULL ) {
     printf( "SDL_CreateWindow Error: %s\n", SDL_GetError() );
     success = 0;
-  }
+  } else {
+    
+    artist = SDL_CreateRenderer( win, -1, SDL_RENDERER_ACCELERATED |
+				 SDL_RENDERER_PRESENTVSYNC );
+    if ( artist == NULL ) {
+      printf( "SDL_CreateRenderer Error: %s\n", SDL_GetError() );
+      success = 0;
+    }
 
-  artist = SDL_CreateRenderer( win, -1, SDL_RENDERER_ACCELERATED |
-			       SDL_RENDERER_PRESENTVSYNC );
-  if ( artist == NULL ) {
-    printf( "SDL_CreateRenderer Error: %s\n", SDL_GetError() );
-    success = 0;
   }
-  
 
   return success;
   
