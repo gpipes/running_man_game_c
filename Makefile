@@ -5,9 +5,12 @@ COMPILER = gcc
 
 all: sdl
 
-sdl: main.o
+sdl: main.o list.o
 	$(COMPILER) $< -o $@ $(SDLLIB)
 main.o: main.c
 	$(COMPILER) $< -c $(SDLINC)
+list.o: list.c
+	$(COMPILER) $< -c
+
 clean:
-	rm -f *~ main.o sdl
+	rm -f *~ main.o sdl list.o

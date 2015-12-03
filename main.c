@@ -1,82 +1,66 @@
-#define bint int
-
 #include <stdlib.h>
 #include <stdio.h>
+#include "list.h"
 #include <SDL2/SDL.h>
 
-
-
 SDL_Window *win = NULL;
-SDL_Surface *screen_surface = NULL;
-SDL_Surface *hello_surface = NULL;
+SDL_Renderer *artist = NULL;
 
-bint init() {
-  int success = 1;
+int Init();
+int Cleanup();
 
-  if (SDL_Init(SDL_INIT_VIDEO)) {
-    printf("SDL_Init Error: %s\n", SDL_GetError());
-    success = 0;
-  } else {
-    win = SDL_CreateWindow("Hello World", SDL_WINDOWPOS_UNDEFINED,
-			   SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
-    if (win == NULL) {
-      printf("SDL_CreateWindow Eroor: %s\n", SDL_GetError());
-      success = 1;
-    } else {
-      screen_surface = SDL_GetWindowSurface(win);
-    }
-    
+int main( int argc, char **argv ) {
+  
+  if ( SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) ) {
+    printf( "SDL_Init Error: %s\n", SDL_GetError() );
+    return 1;
   }
 
-  return success;
+  //if all services initialize correctly we can start the game :)
+  if ( Init() ) {
+
+    
+
+  }
+
+  Cleanup();
+  SDL_Quit();
+  return 0;
+  
 }
 
-bint load_media() {
+int Init() {
 
   int success = 1;
 
-  hello_surface = SDL_LoadBMP("hello.bmp");
-
-  if (hello_surface == NULL) {
-    printf("SDL_LoadBMP Error: %s\n", SDL_GetError());
+  win = SDL_CreateWindow( "Running Man", SDL_WINDOWPOS_UNDEFINED,
+			  SDL_WINDOWPOS_UNDEFINED, 480, 640,
+			  SDL_WINDOW_FULLSCREEN );
+  if ( win == NULL ) {
+    printf( "SDL_CreateWindow Error: %s\n", SDL_GetError() );
     success = 0;
   }
+
+  artist = SDL_CreateRenderer( win, -1, SDL_RENDERER_ACCELERATED |
+			       SDL_RENDERER_PRESENTVSYNC );
+  if ( artist == NULL ) {
+    printf( "SDL_CreateRenderer Error: %s\n", SDL_GetError() );
+    success = 0;
+  }
+  
 
   return success;
   
 }
 
-bint close() {
+int Cleanup() {
 
-  SDL_FreeSurface(hello_surface);
-  hello_surface = NULL;
+  int success = 1;
 
-  SDL_DestroyWindow(win);
-  win = NULL;
+  SDL_DestroyWindow( win );
 
-  SDL_Quit();
+  SDL_DestroyRenderer( artist );
 
-}
+  return success;
 
-int main(int argc, char **argv) {
-
-  if (!init()) {
-    close();
-    printf("Failed to init\n");
-    return 1;
-  }
-  if (!load_media()) {
-    close();
-    printf("Failed to load media\n");
-    return 1;
-  } else {
-    //blitting imposes one surface on another
-    SDL_BlitSurface( hello_surface, NULL, screen_surface, NULL );
-    SDL_UpdateWindowSurface( win );
-  }
-  SDL_Delay( 2000 );
-
-  close();
-
-  return 0;
 }
