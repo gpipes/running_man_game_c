@@ -48,7 +48,7 @@ int main( int argc, char **argv ) {
         SDL_RenderClear(artist);
         update_world(&world);
       }
-      draw_world(&world);
+      draw_world(&world, artist);
       SDL_RenderPresent(artist);
     }
 

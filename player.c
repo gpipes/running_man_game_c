@@ -19,8 +19,8 @@ player *player_create(const char* sprite_sheet, SDL_Renderer *renderer) {
 
   temp->current_sprite_loc.x = 0;
   temp->current_sprite_loc.y = 0;
-  temp->current_sprite_loc.w = 32;
-  temp->current_sprite_loc.h = 32;
+  temp->current_sprite_loc.w = PLAYER_SIZE;
+  temp->current_sprite_loc.h = PLAYER_SIZE;
 
   temp->jump.is_jumping = 0;
 
@@ -30,16 +30,15 @@ player *player_create(const char* sprite_sheet, SDL_Renderer *renderer) {
   temp->last_sprite_change = now;
 
   temp->sprite_sheet = texture;
-  temp->renderer = renderer;
 
   return temp;
 
 }
 
-void player_draw(object p_obj) {
+void player_draw(object p_obj, SDL_Renderer *renderer) {
 
   player *player = p_obj.p_player;
-  SDL_RenderCopy(player->renderer, player->sprite_sheet, &player->current_sprite_loc, &player->loc);
+  SDL_RenderCopy(renderer, player->sprite_sheet, &player->current_sprite_loc, &player->loc);
   return;
 
 }
@@ -55,7 +54,7 @@ void player_update(object p_obj, SDL_Event *e, Uint32 now) {
 }
 
 world_object *player_create_world_object(void (*free_func)(object), void (*update_func)(object, SDL_Event*, Uint32),
-                                          void (*draw_func)(object), player *p_player) {
+                                          void (*draw_func)(object, SDL_Renderer *), player *p_player) {
   world_object *w_obj = (world_object *)malloc(sizeof(world_object));
   w_obj->free_func = free_func;
   w_obj->update_func = update_func;

@@ -13,7 +13,7 @@ world_object *remove_world_object(world_queue *w) {
   return obj;
 }
 
-void draw_world(world_queue *w) {
+void draw_world(world_queue *w, SDL_Renderer *renderer) {
 
   world_object *p_w_obj;
   world_node *curr_node;
@@ -26,7 +26,7 @@ void draw_world(world_queue *w) {
   while (curr_node != NULL) {
 
     world_object *p_w_obj = (world_object *)curr_node->data;
-    p_w_obj->draw_func( p_w_obj->p_obj );
+    p_w_obj->draw_func( p_w_obj->p_obj, renderer );
 
     curr_node = curr_node->next;
 

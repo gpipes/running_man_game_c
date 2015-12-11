@@ -16,12 +16,6 @@ typedef struct PLAYER {
   } jump;
   Uint32 last_sprite_change;
   SDL_Texture *sprite_sheet;
-
-  //renderer will no be freed when freeing
-  //player it is assumed that this is just
-  //a seperate parent renderer
-  SDL_Renderer *renderer;
-
 } player;
 
 typedef union OBJECT {
@@ -39,7 +33,7 @@ typedef struct WORLD_OBJECT {
   void (*update_func)( object p_obj, SDL_Event *e, Uint32 now );
 
   //how to draw the obj
-  void (*draw_func)( object p_obj );
+  void (*draw_func)( object p_obj, SDL_Renderer *renderer );
 
   object p_obj;
 
