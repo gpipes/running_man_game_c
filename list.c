@@ -47,7 +47,7 @@ int insert_node( list *l, void *data ) {
 int append_node( list *l, void *data ) {
 
   node *curr_node = *l;
-  node *app_node = NewNode( data );
+  node *app_node = new_node( data );
 
   if ( app_node == NULL )
     return 0;
@@ -70,7 +70,7 @@ int append_node( list *l, void *data ) {
 
 }
 
-void *delete_first_nodeode( list *l ) {
+void *delete_first_node( list *l ) {
 
   node *first_node;
   void *p_data;

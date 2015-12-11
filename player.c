@@ -32,14 +32,14 @@ player *player_create(const char* sprite_sheet, SDL_Renderer *renderer) {
   temp->sprite_sheet = texture;
   temp->renderer = renderer;
 
-  return;
+  return temp;
 
 }
 
 void player_draw(object p_obj) {
 
   player *player = p_obj.p_player;
-  SDL_RenderCopy(player->renderer, player->sprite_sheet, player->current_sprite_loc, player->loc);
+  SDL_RenderCopy(player->renderer, player->sprite_sheet, &player->current_sprite_loc, &player->loc);
   return;
 
 }
@@ -52,4 +52,14 @@ void player_free(object p_obj) {
 
 void player_update(object p_obj, SDL_Event *e, Uint32 now) {
   return;
+}
+
+world_object *player_create_world_object(void (*free_func)(object), void (*update_func)(object, SDL_Event*, Uint32),
+                                          void (*draw_func)(object), player *p_player) {
+  world_object *w_obj = (world_object *)malloc(sizeof(world_object));
+  w_obj->free_func = free_func;
+  w_obj->update_func = update_func;
+  w_obj->draw_func = draw_func;
+  w_obj->p_obj.p_player = p_player;
+  return w_obj;
 }

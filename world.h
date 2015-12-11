@@ -14,6 +14,6 @@ void draw_world(world_queue *w);
 
 void update_world(world_queue *w);
 
-void free_world(world_queue);
+void free_world(world_queue *w);
 
 #endif

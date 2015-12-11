@@ -45,6 +45,8 @@ typedef struct WORLD_OBJECT {
 
 } world_object;
 
+typedef node world_node;
+
 typedef list world_queue;
 
 #endif
