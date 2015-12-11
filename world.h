@@ -12,7 +12,7 @@ world_object *remove_world_object(world_queue *w);
 
 void draw_world(world_queue *w, SDL_Renderer *renderer);
 
-void update_world(world_queue *w);
+void update_world(world_queue *w, SDL_Event *e, Uint32 now);
 
 void free_world(world_queue *w);
 

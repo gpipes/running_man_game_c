@@ -50,6 +50,8 @@ void player_free(object p_obj) {
 }
 
 void player_update(object p_obj, SDL_Event *e, Uint32 now) {
+  if(e->key.keysym.sym == SDLK_j && e->key.type == SDL_KEYDOWN)
+    printf("j was pressed! \n");
   return;
 }
 

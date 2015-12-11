@@ -39,14 +39,13 @@ int main( int argc, char **argv ) {
       elapsed += now - last;
       last = SDL_GetTicks();
       if ( elapsed >= 16 ) {
-        printf("%d time elapse\n", elapsed);
         SDL_PollEvent( &e );
         if(e.key.keysym.sym == SDLK_ESCAPE) {
           quit = !quit;
         }
         elapsed = 0;
         SDL_RenderClear(artist);
-        update_world(&world);
+        update_world(&world, &e, SDL_GetTicks());
       }
       draw_world(&world, artist);
       SDL_RenderPresent(artist);

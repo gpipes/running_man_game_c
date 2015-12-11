@@ -25,7 +25,7 @@ void draw_world(world_queue *w, SDL_Renderer *renderer) {
 
   while (curr_node != NULL) {
 
-    world_object *p_w_obj = (world_object *)curr_node->data;
+    p_w_obj = (world_object *)curr_node->data;
     p_w_obj->draw_func( p_w_obj->p_obj, renderer );
 
     curr_node = curr_node->next;
@@ -36,8 +36,26 @@ void draw_world(world_queue *w, SDL_Renderer *renderer) {
 
 }
 
-void update_world(world_queue *w) {
+void update_world(world_queue *w, SDL_Event *e, Uint32 now) {
+  world_object *p_w_obj;
+  world_node *p_curr_node;
+
+  if ( *w == NULL )
+    return;
+
+  p_curr_node = *w;
+
+  while(p_curr_node != NULL) {
+
+    p_w_obj = (world_object *)p_curr_node->data;
+    p_w_obj->update_func(p_w_obj->p_obj, e, now);
+
+    p_curr_node = p_curr_node->next;
+
+  }
+
   return;
+
 }
 
 void free_world(world_queue *w) {
