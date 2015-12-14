@@ -1,8 +1,6 @@
 #ifndef ___PLAYER_H
 #define ___PLAYER_H
 
-#define PLAYER_SIZE 32
-
 #include "world_types.h"
 
 player* player_create(const char* sprite_sheet, SDL_Renderer *parent);

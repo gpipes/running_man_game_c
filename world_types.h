@@ -1,6 +1,10 @@
 #ifndef ___WORLD_TYPES_H
 #define ___WORLD_TYPES_H
 
+#define PLAYER_SIZE 64
+#define JUMP_HEIGHT 64
+#define HURDLE_SIZE 64
+
 #include <SDL2/SDL.h>
 
 //lower level data type includes
@@ -16,11 +20,29 @@ typedef struct PLAYER {
   } jump;
   Uint32 last_sprite_change;
   SDL_Texture *sprite_sheet;
+
 } player;
+
+typedef SDL_Rect hurdle;
+
+typedef list hurdles_queue;
+
+typedef struct HURDLES_MANAGER {
+
+  SDL_Texture *sprite_sheet;
+  SDL_Rect current_sprite_loc;
+  hurdles_queue all_hurdles;
+
+  //last generated hurdle and generation interval
+  Uint32 generate_window[2];
+  player *p_player;
+
+} hurdles_manager;
 
 typedef union OBJECT {
 
   player *p_player;
+  hurdles_manager *p_hurdles_manager;
 
 } object;
 

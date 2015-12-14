@@ -28,7 +28,8 @@ int insert_node( list *l, void *data );
 //appends the node with data and returns a success
 int append_node( list *l, void *data );
 
-//returns the data of the first_node
+//returns the data of the first_node and l points to second
+//returns null on empty list
 void *delete_first_node( list *l );
 
 #endif

@@ -12,7 +12,7 @@ player *player_create(const char* sprite_sheet, SDL_Renderer *renderer) {
 
   player *temp = (player *)malloc(sizeof(player));
 
-  temp->loc.x = 0;
+  temp->loc.x = PLAYER_SIZE;
   temp->loc.y = ( (ren_h/2) - PLAYER_SIZE );
   temp->loc.w = PLAYER_SIZE;
   temp->loc.h = PLAYER_SIZE;
@@ -44,23 +44,34 @@ void player_draw(object p_obj, SDL_Renderer *renderer) {
 }
 
 void player_free(object p_obj) {
-  player *player = p_obj.p_player;
-  SDL_DestroyTexture(player->sprite_sheet);
-  free(player);
+  player *p_player = p_obj.p_player;
+  SDL_DestroyTexture(p_player->sprite_sheet);
+  free(p_player);
 }
 
 void player_update(object p_obj, SDL_Event *e, Uint32 now) {
-  if(e->key.keysym.sym == SDLK_j && e->key.type == SDL_KEYDOWN)
-    printf("j was pressed! \n");
+  player *p_player = p_obj.p_player;
+  if( !p_player->jump.is_jumping &&
+    e->key.keysym.sym == SDLK_j && e->key.type == SDL_KEYDOWN && e->key.repeat == 0) {
+    p_player->jump.is_jumping = 1;
+    p_player->jump.started_jump = now;
+    p_player->loc.y -= JUMP_HEIGHT;
+  }
+  if( p_player->jump.is_jumping && (now - p_player->jump.started_jump) > 1000 ) {
+    p_player->jump.is_jumping = 0;
+    p_player->loc.y += JUMP_HEIGHT;
+  }
   return;
 }
 
 world_object *player_create_world_object(void (*free_func)(object), void (*update_func)(object, SDL_Event*, Uint32),
                                           void (*draw_func)(object, SDL_Renderer *), player *p_player) {
+
   world_object *w_obj = (world_object *)malloc(sizeof(world_object));
   w_obj->free_func = free_func;
   w_obj->update_func = update_func;
   w_obj->draw_func = draw_func;
   w_obj->p_obj.p_player = p_player;
   return w_obj;
+
 }

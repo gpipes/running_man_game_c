@@ -32,13 +32,14 @@ int main( int argc, char **argv ) {
     initialize_world_queue(&world);
     test_add_player(&world);
     last = SDL_GetTicks();
-
+    SDL_RenderClear(artist);
     while( !quit ) {
 
       now = SDL_GetTicks();
       elapsed += now - last;
       last = SDL_GetTicks();
-      if ( elapsed >= 16 ) {
+      if ( elapsed >= 8 ) {
+        printf("time elapsed: %d\n", elapsed);
         SDL_PollEvent( &e );
         if(e.key.keysym.sym == SDLK_ESCAPE) {
           quit = !quit;
@@ -46,9 +47,10 @@ int main( int argc, char **argv ) {
         elapsed = 0;
         SDL_RenderClear(artist);
         update_world(&world, &e, SDL_GetTicks());
+        draw_world(&world, artist);
+        SDL_RenderPresent(artist);
       }
-      draw_world(&world, artist);
-      SDL_RenderPresent(artist);
+
     }
 
 
